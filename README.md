@@ -1,4 +1,5 @@
 # sanctum
 laravel eloquent with sanctum
-check use
-check use
+check use a
+check use b
+check use c
