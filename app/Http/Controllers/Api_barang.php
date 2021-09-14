@@ -35,6 +35,7 @@ class Api_barang extends Controller
     public function store(Request $request)
     {
         //set validation
+        // add validation barang 1444
         $validator = Validator::make($request->all(), [
             'NAMA_BARANG' => 'required',
             'KATEGORI'    => 'required',
