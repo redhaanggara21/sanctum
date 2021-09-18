@@ -12,7 +12,7 @@ class Api_barang extends Controller
     // api barang
     public function index(){
         //get data from table posts
-        $data = Barang::latest()->get();
+        $data = Barang::paginate(9);
 
         //make response JSON
         return response()->json([
