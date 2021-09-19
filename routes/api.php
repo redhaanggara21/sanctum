@@ -35,7 +35,7 @@ Route::group(['prefix' => 'auth', 'middleware' => 'auth:sanctum'], function() {
 });
 
 Route::group(['prefix' => 'mydata', 'middleware' => 'auth:sanctum'], function() {
-    Route::get('/barang/index/{find?}',[Api_barang::class, 'index']);
+    Route::get('/barang/index/{find?}/{all?}',[Api_barang::class, 'index']);
     Route::resource('/barang', Api_barang::class);
     Route::resource('/item_penjualan', Api_item_penjualan::class);
     Route::resource('/penjualan', Api_penjualan::class);

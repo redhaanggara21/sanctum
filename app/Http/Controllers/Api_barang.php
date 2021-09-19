@@ -13,11 +13,17 @@ class Api_barang extends Controller
     public function index(Request $request){
     
         $find = !$request->query('find') ? null : $request->query('find');
-        
+        $all  = !$request->query('all') ? null : $request->query('all');
+
+
         if(!$find){
             $data = Barang::paginate(9);
         }else{
-            $data = Barang::where('NAMA_BARANG', 'LIKE', '%'.$find.'%')->paginate(9);
+            if($all){
+                $data = Barang::all();
+            }else{
+                $data = Barang::where('NAMA_BARANG', 'LIKE', '%'.$find.'%')->paginate(9);
+            }
         }
        
 
