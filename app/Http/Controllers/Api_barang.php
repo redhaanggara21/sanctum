@@ -10,9 +10,16 @@ use App\Models\Barang;
 class Api_barang extends Controller
 {
     // api barang
-    public function index(){
-        //get data from table posts
-        $data = Barang::paginate(9);
+    public function index(Request $request){
+    
+        $find = !$request->query('find') ? null : $request->query('find');
+        
+        if(!$find){
+            $data = Barang::paginate(9);
+        }else{
+            $data = Barang::where('NAMA_BARANG', 'LIKE', '%'.$find.'%')->paginate(9);
+        }
+       
 
         //make response JSON
         return response()->json([
