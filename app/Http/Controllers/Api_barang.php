@@ -10,15 +10,37 @@ use App\Models\Barang;
 class Api_barang extends Controller
 {
     // api barang
-    public function index(){
-        //get data from table posts
-        $data = Barang::latest()->get();
+    public function index(Request $request){
+
+        $find = !$request->query('find') ? null : $request->query('find');
+        $all  = $request->query('all') ? $request->query('all') :  null;
+
+
+        if(!$find){
+            $data = Barang::paginate(5);
+        }else{
+            if($all){
+                // $data = Barang::all();
+
+                $data = Barang::where('NAMA_BARANG', 'LIKE', '%'.$find.'%')
+                ->orWhere('KATEGORI', 'LIKE', '%'.$find.'%')
+                ->orWhere('HARGA', 'LIKE', '%'.$find.'%')
+                ->orWhere('KETERANGAN', 'LIKE', '%'.$find.'%')->paginate(5);
+
+            }else{
+                $data = Barang::where('NAMA_BARANG', 'LIKE', '%'.$find.'%')
+                ->orWhere('KATEGORI', 'LIKE', '%'.$find.'%')
+                ->orWhere('HARGA', 'LIKE', '%'.$find.'%')
+                ->orWhere('KETERANGAN', 'LIKE', '%'.$find.'%')->paginate(5);
+            }
+        }
+
 
         //make response JSON
         return response()->json([
             'success' => true,
             'message' => 'List Data Barang',
-            'data'    => $data  
+            'data'    => $data
         ], 200);
     }
 
@@ -28,7 +50,7 @@ class Api_barang extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Detail Data Barang',
-            'data'    => $data 
+            'data'    => $data
         ], 200);
     }
 
@@ -42,7 +64,7 @@ class Api_barang extends Controller
             'HARGA'       => 'required',
             'KETERANGAN'  => 'required'
         ]);
-        
+
         //response error validation
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
@@ -62,10 +84,10 @@ class Api_barang extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Barang Created',
-                'data'    => $data  
+                'data'    => $data
             ], 201);
 
-        } 
+        }
 
         //failed save to database
         return response()->json([
@@ -83,7 +105,7 @@ class Api_barang extends Controller
             'HARGA'       => 'required',
             'KETERANGAN' => 'required'
         ]);
-        
+
         //response error validation
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
@@ -105,7 +127,7 @@ class Api_barang extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Data Updated',
-                'data'    => $data  
+                'data'    => $data
             ], 200);
 
         }
